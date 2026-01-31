@@ -1,0 +1,353 @@
+/* Login */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.login-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00d9ff;
+  margin-bottom: 0.5rem;
+}
+
+.logo-small {
+  font-size: 1.5rem;
+  color: #00d9ff;
+  margin-bottom: 1rem;
+}
+
+.tagline {
+  color: #a0a0a0;
+  margin-bottom: 1rem;
+}
+
+.desc {
+  color: #c0c0c0;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.btn-google {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #fff;
+  color: #333;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-google:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0,217,255,0.3);
+}
+
+/* Share Location */
+.share-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.share-card {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 16px;
+  padding: 2.5rem;
+  max-width: 380px;
+  text-align: center;
+}
+
+.share-card h2 {
+  margin-bottom: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.share-card p {
+  color: #a0a0a0;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.btn-primary {
+  background: #00d9ff;
+  color: #1a1a2e;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: #00b8d9;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #00d9ff;
+  border: 2px solid #00d9ff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.success {
+  color: #4ade80 !important;
+  font-size: 1.1rem;
+}
+
+.error {
+  color: #f87171 !important;
+}
+
+/* Dashboard */
+.dashboard {
+  min-height: 100vh;
+}
+
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(0,0,0,0.2);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.dashboard-header h1 {
+  font-size: 1.5rem;
+  color: #00d9ff;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-set-location {
+  background: rgba(0,217,255,0.2);
+  color: #00d9ff;
+  border: 1px solid #00d9ff;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.btn-set-location:hover {
+  background: rgba(0,217,255,0.3);
+}
+
+.business-set {
+  color: #4ade80;
+  font-size: 0.9rem;
+}
+
+.btn-logout {
+  background: transparent;
+  color: #a0a0a0;
+  border: none;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+}
+
+.btn-logout:hover {
+  color: #fff;
+}
+
+.loading {
+  padding: 3rem;
+  text-align: center;
+  color: #a0a0a0;
+}
+
+.dashboard-main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 0;
+  min-height: calc(100vh - 60px);
+}
+
+@media (max-width: 900px) {
+  .dashboard-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Meeting List */
+.meeting-list {
+  padding: 1.5rem;
+  background: rgba(0,0,0,0.15);
+  border-left: 1px solid rgba(255,255,255,0.08);
+  overflow-y: auto;
+}
+
+.meeting-list h2 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.hint {
+  color: #808080;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.btn-set-location-inline {
+  background: rgba(0,217,255,0.15);
+  color: #00d9ff;
+  border: 1px solid #00d9ff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-set-location-inline:hover {
+  background: rgba(0,217,255,0.25);
+}
+
+.meeting-list ul {
+  list-style: none;
+}
+
+.meeting-list li {
+  padding: 1rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  margin-bottom: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.meeting-list li.in-window {
+  border-color: rgba(0,217,255,0.4);
+  background: rgba(0,217,255,0.08);
+}
+
+.meeting-time {
+  font-weight: 600;
+  color: #00d9ff;
+  font-size: 1rem;
+}
+
+.meeting-summary {
+  margin-top: 0.25rem;
+  font-size: 1rem;
+}
+
+.meeting-location {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #4ade80;
+}
+
+.meeting-no-location {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #fbbf24;
+}
+
+.btn-share-link,
+.btn-copy-link {
+  display: block;
+  margin-top: 0.5rem;
+  background: transparent;
+  color: #00d9ff;
+  border: 1px solid #00d9ff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.btn-share-link:hover,
+.btn-copy-link:hover {
+  background: rgba(0,217,255,0.2);
+}
+
+.empty {
+  color: #808080;
+  text-align: center;
+  padding: 2rem;
+}
+
+/* Map */
+.map-container {
+  position: relative;
+  min-height: 400px;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  min-height: calc(100vh - 60px);
+}
+
+.map-legend {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.7);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.pin {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.pin.business {
+  background: #00d9ff;
+}
+
+.pin.client {
+  background: #f59e0b;
+}
+
+.custom-marker .marker-pin {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.custom-marker .marker-pin.business {
+  background: #00d9ff;
+}
+
+.custom-marker .marker-pin.client {
+  background: #f59e0b;
+}
