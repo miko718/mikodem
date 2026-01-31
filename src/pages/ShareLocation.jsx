@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
+import Logo from '../components/Logo'
 
 const API = '/api'
 
@@ -49,6 +50,7 @@ export default function ShareLocation() {
   return (
     <div className="share-page">
       <div className="share-card">
+        <Logo size={80} />
         <h1 className="logo-small">mikodem</h1>
         {status === 'loading' && <p>טוען...</p>}
         {status === 'ready' && (

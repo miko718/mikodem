@@ -1,8 +1,11 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import Logo from '../components/Logo'
 
 export default function Login() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const error = searchParams.get('error')
 
   useEffect(() => {
     fetch('/api/auth/me', { credentials: 'include' })
@@ -11,13 +14,17 @@ export default function Login() {
   }, [navigate])
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h1 className="logo">mikodem</h1>
-        <p className="tagline">יומן פגישות מבוסס מיקום</p>
-        <p className="desc">
+    <div className="login-page locate-style">
+      <div className="login-content">
+        <Logo size={140} />
+        <h1 className="logo-text">mikodem</h1>
+        <p className="tagline-main">יומן פגישות מבוסס מיקום</p>
+        <p className="desc-main">
           התחבר עם Google Calendar כדי לראות את מיקום הלקוחות 30 דקות לפני הפגישה
         </p>
+        {error === 'no_google_credentials' && (
+          <p className="error-msg">הגדר GOOGLE_CLIENT_ID ו-GOOGLE_CLIENT_SECRET ב-.env לפי .env.example</p>
+        )}
         <a href="/api/auth/google" className="btn-google">
           <svg width="20" height="20" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>

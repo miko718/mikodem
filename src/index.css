@@ -5,10 +5,9 @@
 }
 
 body {
-  font-family: 'Segoe UI', 'Heebo', system-ui, sans-serif;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  font-family: 'Heebo', 'Segoe UI', system-ui, sans-serif;
   min-height: 100vh;
-  color: #e8e8e8;
+  color: #fff;
 }
 
 .app {
@@ -16,7 +15,7 @@ body {
 }
 
 a {
-  color: #00d9ff;
+  color: #a7f3d0;
   text-decoration: none;
 }
 

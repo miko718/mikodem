@@ -28,14 +28,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const BASE_URL = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3001}`;
-passport.use(new GoogleStrategy({
-  clientID: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: `${BASE_URL}/api/auth/google/callback`,
-  scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.readonly']
-}, (accessToken, refreshToken, profile, done) => {
-  done(null, { profile, accessToken, refreshToken });
-}));
+const hasGoogleCredentials = process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET;
+
+if (hasGoogleCredentials) {
+  passport.use(new GoogleStrategy({
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    callbackURL: `${BASE_URL}/api/auth/google/callback`,
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.readonly']
+  }, (accessToken, refreshToken, profile, done) => {
+    done(null, { profile, accessToken, refreshToken });
+  }));
+} else {
+  console.warn('⚠️  GOOGLE_CLIENT_ID ו-GOOGLE_CLIENT_SECRET לא מוגדרים. הגדר .env לפי .env.example');
+}
 
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));

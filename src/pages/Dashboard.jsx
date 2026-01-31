@@ -54,7 +54,7 @@ export default function Dashboard() {
     if (!res.ok) return
     const data = await res.json()
     setEvents(data)
-    if (data?.length && data.some(e => e.inLocationWindow)) {
+    if (data?.length) {
       const ids = data.map(e => e.id).join(',')
       const locRes = await fetch(`${API}/locations/for-events?ids=${ids}`)
       if (locRes.ok) {
@@ -72,6 +72,13 @@ export default function Dashboard() {
       setLoading(false)
     })()
   }, [loadUser, loadBusinessLocation, loadEvents])
+
+  // רענון אוטומטי כל 30 שניות כשנמצאים בחלון המיקום
+  useEffect(() => {
+    if (!events.some(e => e.inLocationWindow)) return
+    const interval = setInterval(loadEvents, 30000)
+    return () => clearInterval(interval)
+  }, [events, loadEvents])
 
   const setMyLocation = () => {
     if (!navigator.geolocation) {
@@ -108,14 +115,23 @@ export default function Dashboard() {
     const loc = locations[e.id]
     let distanceKm = null
     if (businessLocation && loc) {
-      distanceKm = calcDistance(
+      distanceKm = parseFloat(calcDistance(
         businessLocation.lat, businessLocation.lng,
         loc.lat, loc.lng
-      ).toFixed(1)
+      ).toFixed(1))
     }
     const shareUrl = `${window.location.origin}/share/${e.id}`
     return { ...e, location: loc, distanceKm, shareUrl }
-  }).sort((a, b) => new Date(a.start) - new Date(b.start))
+  }).sort((a, b) => {
+    const timeA = new Date(a.start).getTime()
+    const timeB = new Date(b.start).getTime()
+    if (a.inLocationWindow && b.inLocationWindow && businessLocation) {
+      const distA = a.distanceKm ?? Infinity
+      const distB = b.distanceKm ?? Infinity
+      if (distA !== distB) return distA - distB
+    }
+    return timeA - timeB
+  })
 
   if (loading) {
     return (
@@ -149,6 +165,7 @@ export default function Dashboard() {
           events={eventsWithDistances}
           onSetBusinessLocation={setMyLocation}
           businessSet={businessSet}
+          onRefresh={loadEvents}
         />
         <MapView
           events={eventsWithDistances}

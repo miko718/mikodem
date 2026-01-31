@@ -2,12 +2,18 @@ import { Router } from 'express';
 import passport from 'passport';
 
 const router = Router();
+const hasGoogleCredentials = !!process.env.GOOGLE_CLIENT_ID;
 
-router.get('/google', passport.authenticate('google', { 
-  accessType: 'offline', 
-  prompt: 'consent',
-  scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.readonly']
-}));
+router.get('/google', (req, res, next) => {
+  if (!hasGoogleCredentials) {
+    return res.redirect('http://localhost:5173/login?error=no_google_credentials');
+  }
+  passport.authenticate('google', { 
+    accessType: 'offline', 
+    prompt: 'consent',
+    scope: ['profile', 'email', 'https://www.googleapis.com/auth/calendar.readonly']
+  })(req, res, next);
+});
 
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: 'http://localhost:5173/login' }),

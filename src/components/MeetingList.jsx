@@ -1,5 +1,4 @@
-export default function MeetingList({ events, businessSet, onSetBusinessLocation }) {
-  const inWindow = events.filter(e => e.inLocationWindow)
+export default function MeetingList({ events, businessSet, onSetBusinessLocation, onRefresh }) {
   const formatTime = (iso) => {
     const d = new Date(iso)
     return d.toLocaleTimeString('he-IL', { hour: '2-digit', minute: '2-digit' })
@@ -7,12 +6,25 @@ export default function MeetingList({ events, businessSet, onSetBusinessLocation
 
   const copyLink = (url, summary) => {
     navigator.clipboard.writeText(url)
-    alert(`הקישור לשיתוף מיקום copied ללוח!\n\nשלח ללקוח:\n${url}`)
+    alert(`הקישור הועתק ללוח!\n\nשלח ללקוח:\n${url}`)
+  }
+
+  const shareViaWhatsApp = (url, summary) => {
+    const text = `שלום, בבקשה שתף את המיקום שלך לפני הפגישה "${summary}":\n${url}`
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`
+    window.open(waUrl, '_blank')
   }
 
   return (
     <aside className="meeting-list">
-      <h2>פגישות קרובות</h2>
+      <div className="meeting-list-header">
+        <h2>פגישות קרובות</h2>
+        {onRefresh && (
+          <button className="btn-refresh" onClick={onRefresh} title="רענן">
+            ⟳
+          </button>
+        )}
+      </div>
       <p className="hint">30 דקות לפני כל פגישה תוכל לראות את מיקום הלקוח</p>
       {!businessSet && (
         <button className="btn-set-location-inline" onClick={onSetBusinessLocation}>
@@ -32,23 +44,23 @@ export default function MeetingList({ events, businessSet, onSetBusinessLocation
                 )}
               </div>
             ) : event.inLocationWindow ? (
-              <div className="meeting-no-location">
-                הלקוח עדיין לא שיתף מיקום
-                <button
-                  className="btn-share-link"
-                  onClick={() => copyLink(event.shareUrl, event.summary)}
-                >
-                  העתק קישור לשליחה
-                </button>
-              </div>
+              <div className="meeting-no-location">הלקוח עדיין לא שיתף מיקום</div>
             ) : null}
             {event.inLocationWindow && !event.location && (
-              <button
-                className="btn-copy-link"
-                onClick={() => copyLink(event.shareUrl, event.summary)}
-              >
-                העתק קישור ל-SMS/WhatsApp
-              </button>
+              <div className="share-buttons">
+                <button
+                  className="btn-copy-link"
+                  onClick={() => copyLink(event.shareUrl, event.summary)}
+                >
+                  העתק קישור
+                </button>
+                <button
+                  className="btn-whatsapp"
+                  onClick={() => shareViaWhatsApp(event.shareUrl, event.summary)}
+                >
+                  שלח ב-WhatsApp
+                </button>
+              </div>
             )}
           </li>
         ))}
