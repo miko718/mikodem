@@ -7,12 +7,14 @@ const DATA_FILE = join(__dirname, 'locations.json');
 
 function loadData() {
   if (!existsSync(DATA_FILE)) {
-    return { locations: {}, businessLocation: null };
+    return { locations: {}, businessLocation: null, lateResponses: {} };
   }
   try {
-    return JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+    const data = JSON.parse(readFileSync(DATA_FILE, 'utf-8'));
+    if (!data.lateResponses) data.lateResponses = {};
+    return data;
   } catch {
-    return { locations: {}, businessLocation: null };
+    return { locations: {}, businessLocation: null, lateResponses: {} };
   }
 }
 
@@ -54,4 +56,19 @@ export function getLocationsForEvents(eventIds) {
     if (data.locations[id]) result[id] = data.locations[id];
   });
   return result;
+}
+
+export function setLateResponse(eventId, choice) {
+  const data = loadData();
+  data.lateResponses[eventId] = {
+    choice,
+    respondedAt: new Date().toISOString()
+  };
+  saveData(data);
+  return data.lateResponses[eventId];
+}
+
+export function getLateResponse(eventId) {
+  const data = loadData();
+  return data.lateResponses[eventId] || null;
 }

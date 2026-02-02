@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import MapView from '../components/MapView'
 import MeetingList from '../components/MeetingList'
+import { useToast } from '../context/ToastContext'
 
 const API = '/api'
 
@@ -18,12 +19,15 @@ function calcDistance(lat1, lon1, lat2, lon2) {
 
 export default function Dashboard() {
   const navigate = useNavigate()
+  const { toast } = useToast()
   const [user, setUser] = useState(null)
   const [events, setEvents] = useState([])
   const [locations, setLocations] = useState({})
+  const [lateResponses, setLateResponses] = useState({})
   const [businessLocation, setBusinessLocation] = useState(null)
   const [loading, setLoading] = useState(true)
   const [businessSet, setBusinessSet] = useState(false)
+  const [lastRefresh, setLastRefresh] = useState(null)
 
   const loadUser = useCallback(async () => {
     const res = await fetch(`${API}/auth/me`, { credentials: 'include' })
@@ -54,12 +58,20 @@ export default function Dashboard() {
     if (!res.ok) return
     const data = await res.json()
     setEvents(data)
+    setLastRefresh(new Date())
     if (data?.length) {
       const ids = data.map(e => e.id).join(',')
-      const locRes = await fetch(`${API}/locations/for-events?ids=${ids}`)
+      const [locRes, lateRes] = await Promise.all([
+        fetch(`${API}/locations/for-events?ids=${ids}`),
+        fetch(`${API}/locations/late-responses?ids=${ids}`)
+      ])
       if (locRes.ok) {
         const locs = await locRes.json()
         setLocations(locs)
+      }
+      if (lateRes.ok) {
+        const late = await lateRes.json()
+        setLateResponses(late)
       }
     }
   }, [])
@@ -80,9 +92,40 @@ export default function Dashboard() {
     return () => clearInterval(interval)
   }, [events, loadEvents])
 
+  // התראות כשמגיע זמן לשלוח קישור
+  useEffect(() => {
+    const checkForNotifications = () => {
+      const now = new Date()
+      events.forEach(event => {
+        const eventTime = new Date(event.start)
+        const timeUntilEvent = eventTime.getTime() - now.getTime()
+        const thirtyMinutes = 30 * 60 * 1000
+        
+        // התראה 30 דקות לפני (בדיוק)
+        if (timeUntilEvent > 0 && timeUntilEvent <= thirtyMinutes + 60000 && 
+            timeUntilEvent >= thirtyMinutes - 60000 && !event.location) {
+          if (Notification.permission === 'granted') {
+            new Notification('mikodem - זמן לשלוח קישור', {
+              body: `פגישה "${event.summary}" בעוד 30 דקות. שלח קישור ללקוח.`,
+              icon: '/vite.svg'
+            })
+          }
+        }
+      })
+    }
+
+    // בקשת הרשאה להתראות
+    if ('Notification' in window && Notification.permission === 'default') {
+      Notification.requestPermission()
+    }
+
+    const interval = setInterval(checkForNotifications, 60000) // בדיקה כל דקה
+    return () => clearInterval(interval)
+  }, [events])
+
   const setMyLocation = () => {
     if (!navigator.geolocation) {
-      alert('הדפדפן לא תומך במיקום')
+      toast('הדפדפן לא תומך במיקום', 'error')
       return
     }
     navigator.geolocation.getCurrentPosition(
@@ -100,9 +143,12 @@ export default function Dashboard() {
           const data = await res.json()
           setBusinessLocation(data)
           setBusinessSet(true)
+          toast('מיקום העסק נשמר בהצלחה', 'success')
+        } else {
+          toast('שגיאה בשמירת המיקום', 'error')
         }
       },
-      () => alert('לא הצלחנו לקבל את המיקום')
+      () => toast('לא הצלחנו לקבל את המיקום - בדוק הרשאות', 'error')
     )
   }
 
@@ -113,6 +159,7 @@ export default function Dashboard() {
 
   const eventsWithDistances = events.map(e => {
     const loc = locations[e.id]
+    const lateResp = lateResponses[e.id]
     let distanceKm = null
     if (businessLocation && loc) {
       distanceKm = parseFloat(calcDistance(
@@ -121,7 +168,7 @@ export default function Dashboard() {
       ).toFixed(1))
     }
     const shareUrl = `${window.location.origin}/share/${e.id}`
-    return { ...e, location: loc, distanceKm, shareUrl }
+    return { ...e, location: loc, distanceKm, shareUrl, lateResponse: lateResp }
   }).sort((a, b) => {
     const timeA = new Date(a.start).getTime()
     const timeB = new Date(b.start).getTime()
@@ -139,7 +186,10 @@ export default function Dashboard() {
         <header className="dashboard-header">
           <h1>mikodem</h1>
         </header>
-        <div className="loading">טוען...</div>
+        <div className="loading-state">
+          <div className="loading-spinner" />
+          <p>טוען פגישות...</p>
+        </div>
       </div>
     )
   }
@@ -166,6 +216,7 @@ export default function Dashboard() {
           onSetBusinessLocation={setMyLocation}
           businessSet={businessSet}
           onRefresh={loadEvents}
+          lastRefresh={lastRefresh}
         />
         <MapView
           events={eventsWithDistances}
