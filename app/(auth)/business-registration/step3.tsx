@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight, Check } from 'lucide-react-native';
+import { useMutation } from 'convex/react';
 import { useRouter } from 'expo-router';
+import { Check, ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,9 +14,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { api } from '@/convex/_generated/api';
 
 import { rtl, tw } from '@/lib/rtl';
 
@@ -63,7 +63,9 @@ export default function BusinessRegistrationStep3() {
         className="flex-1"
       >
         {/* Header */}
-        <View className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}>
+        <View
+          className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}
+        >
           <View className={`${tw.flexRow} items-center gap-2`}>
             <Pressable
               accessible={true}
@@ -74,7 +76,9 @@ export default function BusinessRegistrationStep3() {
             >
               <ChevronRight size={24} color="#71717a" />
             </Pressable>
-            <Text className={`text-white text-lg font-semibold ${tw.textStart}`}>
+            <Text
+              className={`text-white text-lg font-semibold ${tw.textStart}`}
+            >
               רישום בעל עסק
             </Text>
           </View>
@@ -102,8 +106,8 @@ export default function BusinessRegistrationStep3() {
             <Text
               className={`text-zinc-400 text-base mb-8 leading-6 ${tw.textStart}`}
             >
-              מה ההטבה או הנחה שאתה מציע לקהילת העצמאים? זה יעזור לאחרים
-              להכיר את העסק שלך
+              מה ההטבה או הנחה שאתה מציע לקהילת העצמאים? זה יעזור לאחרים להכיר
+              את העסק שלך
             </Text>
 
             {/* Form Fields */}
@@ -158,9 +162,7 @@ export default function BusinessRegistrationStep3() {
               <View className="gap-2">
                 <View className={`${tw.flexRow} items-center gap-2`}>
                   <Check size={16} color="#4fc3f7" />
-                  <Text className="text-zinc-300 text-sm">
-                    פרטי העסק נשמרו
-                  </Text>
+                  <Text className="text-zinc-300 text-sm">פרטי העסק נשמרו</Text>
                 </View>
                 <View className={`${tw.flexRow} items-center gap-2`}>
                   <Check size={16} color="#4fc3f7" />
@@ -192,7 +194,9 @@ export default function BusinessRegistrationStep3() {
                 <ActivityIndicator color="#ffffff" />
               ) : (
                 <View className={`${tw.flexRow} items-center gap-2`}>
-                  <Text className="text-white text-lg font-bold">סיים רישום</Text>
+                  <Text className="text-white text-lg font-bold">
+                    סיים רישום
+                  </Text>
                   <Check size={20} color="#ffffff" />
                 </View>
               )}

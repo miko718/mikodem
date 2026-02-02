@@ -1,12 +1,7 @@
-import {
-  Building2,
-  Check,
-  Scale,
-  Users,
-  X,
-} from 'lucide-react-native';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import { Building2, Check, Scale, Users, X } from 'lucide-react-native';
+import type React from 'react';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -24,8 +19,8 @@ import { IS_DEV_MODE, PRIVACY_URL, TERMS_URL } from '@/config/appConfig';
 import {
   PREMIUM_ADDITIONAL_BENEFITS,
   SUBSCRIPTION_PLANS,
-  WHY_JOIN_ITEMS,
   type SubscriptionPlan,
+  WHY_JOIN_ITEMS,
 } from '@/config/subscriptionConfig';
 import { useRevenueCat } from '@/contexts/RevenueCatContext';
 import { tw } from '@/lib/rtl';
@@ -34,9 +29,9 @@ export default function SubscriptionScreen() {
   const router = useRouter();
   const { packages, isLoading, purchasePackage, isExpoGo } = useRevenueCat();
 
-  const [selectedPlanType, setSelectedPlanType] = useState<'monthly' | 'annual'>(
-    'monthly'
-  );
+  const [selectedPlanType, setSelectedPlanType] = useState<
+    'monthly' | 'annual'
+  >('monthly');
   const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>('premium');
   const [isPurchasing, setIsPurchasing] = useState(false);
   const [termsModalVisible, setTermsModalVisible] = useState(false);
@@ -62,10 +57,7 @@ export default function SubscriptionScreen() {
     );
 
     if (!revenueCatPackage) {
-      Alert.alert(
-        'שגיאה',
-        'החבילה לא זמינה כרגע. אנא נסה שוב מאוחר יותר.'
-      );
+      Alert.alert('שגיאה', 'החבילה לא זמינה כרגע. אנא נסה שוב מאוחר יותר.');
       return;
     }
 
@@ -132,7 +124,9 @@ export default function SubscriptionScreen() {
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Header */}
-        <View className={`${tw.flexRow} items-center justify-between px-6 pt-4`}>
+        <View
+          className={`${tw.flexRow} items-center justify-between px-6 pt-4`}
+        >
           <View className={`${tw.flexRow} items-center gap-3`}>
             <View className="w-12 h-12 rounded-full bg-zinc-800 items-center justify-center">
               <Text className="text-2xl font-bold text-zinc-400">A</Text>
@@ -194,16 +188,12 @@ export default function SubscriptionScreen() {
               accessibilityLabel="מסלול שנתי עם הנחה"
               onPress={() => setSelectedPlanType('annual')}
               className={`flex-1 py-3 rounded-lg ${
-                selectedPlanType === 'annual'
-                  ? 'bg-zinc-700'
-                  : 'bg-transparent'
+                selectedPlanType === 'annual' ? 'bg-zinc-700' : 'bg-transparent'
               }`}
             >
               <Text
                 className={`text-center font-semibold ${
-                  selectedPlanType === 'annual'
-                    ? 'text-white'
-                    : 'text-zinc-400'
+                  selectedPlanType === 'annual' ? 'text-white' : 'text-zinc-400'
                 }`}
               >
                 שנתי -{SUBSCRIPTION_PLANS.premium.annualDiscount}%
@@ -248,9 +238,14 @@ export default function SubscriptionScreen() {
             </Text>
             <View className="gap-3">
               {SUBSCRIPTION_PLANS.basic.features.map((feature, index) => (
-                <View key={index} className={`${tw.flexRow} items-center gap-3`}>
+                <View
+                  key={index}
+                  className={`${tw.flexRow} items-center gap-3`}
+                >
                   <Check size={20} color="#4fc3f7" />
-                  <Text className="text-zinc-300 text-base">{feature.title}</Text>
+                  <Text className="text-zinc-300 text-base">
+                    {feature.title}
+                  </Text>
                 </View>
               ))}
             </View>
@@ -355,9 +350,14 @@ export default function SubscriptionScreen() {
           <View className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
             <View className="gap-3">
               {PREMIUM_ADDITIONAL_BENEFITS.map((benefit, index) => (
-                <View key={index} className={`${tw.flexRow} items-center gap-3`}>
+                <View
+                  key={index}
+                  className={`${tw.flexRow} items-center gap-3`}
+                >
                   <Check size={20} color="#4fc3f7" />
-                  <Text className="text-zinc-300 text-base">{benefit.title}</Text>
+                  <Text className="text-zinc-300 text-base">
+                    {benefit.title}
+                  </Text>
                 </View>
               ))}
             </View>

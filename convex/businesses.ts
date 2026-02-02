@@ -67,7 +67,7 @@ export const saveStep1 = mutation({
   },
 });
 
-// שמירת נתוני שלב 2 (פרטי קשר)
+// שמירת נתוני שלב 2 (פרטי קשר + מיקום)
 export const saveStep2 = mutation({
   args: {
     businessAddress: v.optional(v.string()),
@@ -75,6 +75,13 @@ export const saveStep2 = mutation({
     phone: v.optional(v.string()),
     website: v.optional(v.string()),
     businessLink: v.optional(v.string()),
+    businessLocation: v.optional(
+      v.object({
+        latitude: v.number(),
+        longitude: v.number(),
+        address: v.optional(v.string()),
+      })
+    ),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
@@ -107,6 +114,7 @@ export const saveStep2 = mutation({
       phone: args.phone,
       website: args.website,
       businessLink: args.businessLink,
+      businessLocation: args.businessLocation,
       registrationStep: 'step3',
       updatedAt: Date.now(),
     });
@@ -143,7 +151,9 @@ export const saveStep3 = mutation({
       .first();
 
     if (!business) {
-      throw new Error('Business not found. Please complete previous steps first.');
+      throw new Error(
+        'Business not found. Please complete previous steps first.'
+      );
     }
 
     await ctx.db.patch(business._id, {

@@ -1,5 +1,3 @@
-import { api } from '@/convex/_generated/api';
-import { tw } from '@/lib/rtl'; // כלי עזר ל-RTL
 import { useAuthActions } from '@convex-dev/auth/react';
 import { useMutation, useQuery } from 'convex/react';
 import { useRouter } from 'expo-router';
@@ -14,6 +12,8 @@ import {
   View,
 } from 'react-native'; // רכיבי UI בסיסיים
 import { SafeAreaView } from 'react-native-safe-area-context'; // רכיב לשמירה על אזור בטוח (Safe Area)
+import { api } from '@/convex/_generated/api';
+import { rtl, tw } from '@/lib/rtl'; // כלי עזר ל-RTL
 
 // מסך פרופיל
 export default function Page2() {
@@ -185,14 +185,12 @@ export default function Page2() {
               ערוך שם
             </Text>
 
-            <Text
-              className={`text-zinc-400 text-sm mb-3 ${tw.textStart}`}
-            >
+            <Text className={`text-zinc-400 text-sm mb-3 ${tw.textStart}`}>
               שם מלא
             </Text>
             <TextInput
               className="bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-base mb-6"
-              style={{ textAlign: tw.textAlign }}
+              style={{ textAlign: rtl.textAlign }}
               value={editedName}
               onChangeText={setEditedName}
               placeholder="הזן שם מלא"
@@ -211,7 +209,9 @@ export default function Page2() {
                 hitSlop={10}
                 className="flex-1 p-3 rounded-xl bg-zinc-800 border border-zinc-700 min-h-[48px] items-center justify-center"
               >
-                <Text className="text-white text-base font-semibold">ביטול</Text>
+                <Text className="text-white text-base font-semibold">
+                  ביטול
+                </Text>
               </Pressable>
 
               <Pressable

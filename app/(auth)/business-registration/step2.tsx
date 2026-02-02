@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react-native';
+import { useMutation } from 'convex/react';
 import { useRouter } from 'expo-router';
+import { ChevronLeft, ChevronRight } from 'lucide-react-native';
 import { useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,9 +14,8 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { api } from '@/convex/_generated/api';
 
 import { rtl, tw } from '@/lib/rtl';
 
@@ -46,10 +46,7 @@ export default function BusinessRegistrationStep2() {
       });
       router.push('/(auth)/business-registration/step3');
     } catch (error) {
-      Alert.alert(
-        'שגיאה',
-        'לא הצלחנו לשמור את הנתונים. אנא נסה שוב.'
-      );
+      Alert.alert('שגיאה', 'לא הצלחנו לשמור את הנתונים. אנא נסה שוב.');
     } finally {
       setIsSaving(false);
     }
@@ -62,7 +59,9 @@ export default function BusinessRegistrationStep2() {
         className="flex-1"
       >
         {/* Header */}
-        <View className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}>
+        <View
+          className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}
+        >
           <View className={`${tw.flexRow} items-center gap-2`}>
             <Pressable
               accessible={true}
@@ -73,7 +72,9 @@ export default function BusinessRegistrationStep2() {
             >
               <ChevronRight size={24} color="#71717a" />
             </Pressable>
-            <Text className={`text-white text-lg font-semibold ${tw.textStart}`}>
+            <Text
+              className={`text-white text-lg font-semibold ${tw.textStart}`}
+            >
               רישום בעל עסק
             </Text>
           </View>
@@ -217,7 +218,9 @@ export default function BusinessRegistrationStep2() {
                 <ActivityIndicator color="#ffffff" />
               ) : (
                 <View className={`${tw.flexRow} items-center gap-2`}>
-                  <Text className="text-white text-lg font-bold">המשך לשלב הבא</Text>
+                  <Text className="text-white text-lg font-bold">
+                    המשך לשלב הבא
+                  </Text>
                   <ChevronLeft size={20} color="#ffffff" />
                 </View>
               )}

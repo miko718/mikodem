@@ -133,6 +133,60 @@ export const updateMyProfile = mutation({
   },
 });
 
+// עדכון הגדרות Mikodem (אמצעי תחבורה, safety buffer, וכו')
+export const updateMikodemSettings = mutation({
+  args: {
+    preferredTransportMode: v.optional(
+      v.union(v.literal('walking'), v.literal('driving'), v.literal('transit'))
+    ),
+    safetyBufferMinutes: v.optional(v.number()),
+    locationTrackingEnabled: v.optional(v.boolean()),
+    pushNotificationsEnabled: v.optional(v.boolean()),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error('Not authenticated');
+    }
+
+    const email = identity.email ?? '';
+    const user = await ctx.db
+      .query('users')
+      .withIndex('by_email', (q) => q.eq('email', email))
+      .unique();
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    const updateData: {
+      preferredTransportMode?: 'walking' | 'driving' | 'transit';
+      safetyBufferMinutes?: number;
+      locationTrackingEnabled?: boolean;
+      pushNotificationsEnabled?: boolean;
+      updatedAt: number;
+    } = {
+      updatedAt: Date.now(),
+    };
+
+    if (args.preferredTransportMode !== undefined) {
+      updateData.preferredTransportMode = args.preferredTransportMode;
+    }
+    if (args.safetyBufferMinutes !== undefined) {
+      updateData.safetyBufferMinutes = args.safetyBufferMinutes;
+    }
+    if (args.locationTrackingEnabled !== undefined) {
+      updateData.locationTrackingEnabled = args.locationTrackingEnabled;
+    }
+    if (args.pushNotificationsEnabled !== undefined) {
+      updateData.pushNotificationsEnabled = args.pushNotificationsEnabled;
+    }
+
+    await ctx.db.patch(user._id, updateData);
+    return user._id;
+  },
+});
+
 // עדכון סוג המשתמש (חינמי/בתשלום)
 export const updateUserType = mutation({
   args: {

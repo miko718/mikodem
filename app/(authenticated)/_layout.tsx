@@ -1,10 +1,10 @@
-import { PAYMENT_SYSTEM_ENABLED } from '@/config/appConfig';
-import { useRevenueCat } from '@/contexts/RevenueCatContext';
-import { IS_RTL } from '@/lib/rtl';
 import { useConvexAuth } from 'convex/react';
 import { Redirect, Tabs, useRootNavigationState } from 'expo-router';
 import { FileSpreadsheet, Home, Settings } from 'lucide-react-native';
 import { ActivityIndicator, I18nManager, View } from 'react-native';
+import { PAYMENT_SYSTEM_ENABLED } from '@/config/appConfig';
+import { useRevenueCat } from '@/contexts/RevenueCatContext';
+import { IS_RTL } from '@/lib/rtl';
 
 export default function AuthenticatedLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth(); // בדיקת סטטוס האימות

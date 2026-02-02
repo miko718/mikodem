@@ -53,6 +53,18 @@
         {
           "photosPermission": "האפליקציה זקוקה לגישה לתמונות כדי להעלות לוגו עסק"
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "האפליקציה זקוקה לגישה למיקום כדי להציג את מיקום העסק והלקוחות על המפה"
+        }
+      ],
+      [
+        "react-native-maps",
+        {
+          "googleMapsApiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
       ]
     ],
     "experiments": {

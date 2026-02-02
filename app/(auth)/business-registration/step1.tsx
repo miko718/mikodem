@@ -1,9 +1,8 @@
-import * as ImagePicker from 'expo-image-picker';
-import { ChevronLeft, ChevronRight, Plus } from 'lucide-react-native';
-import { useRouter } from 'expo-router';
-import { useState } from 'react';
 import { useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
+import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from 'expo-router';
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react-native';
+import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -18,9 +17,9 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
 import { WebViewModal } from '@/components/WebViewModal';
 import { PRIVACY_URL, TERMS_URL } from '@/config/appConfig';
+import { api } from '@/convex/_generated/api';
 import { rtl, tw } from '@/lib/rtl';
 
 // רשימת תחומי עיסוק (TODO: להעביר ל-constants או DB)
@@ -54,10 +53,7 @@ export default function BusinessRegistrationStep1() {
     // בקש הרשאות גישה לתמונות
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert(
-        'הרשאות נדרשות',
-        'אנא אפשר גישה לתמונות בהגדרות המכשיר'
-      );
+      Alert.alert('הרשאות נדרשות', 'אנא אפשר גישה לתמונות בהגדרות המכשיר');
       return;
     }
 
@@ -98,10 +94,7 @@ export default function BusinessRegistrationStep1() {
       });
       router.push('/(auth)/business-registration/step2');
     } catch (error) {
-      Alert.alert(
-        'שגיאה',
-        'לא הצלחנו לשמור את הנתונים. אנא נסה שוב.'
-      );
+      Alert.alert('שגיאה', 'לא הצלחנו לשמור את הנתונים. אנא נסה שוב.');
     } finally {
       setIsSaving(false);
     }
@@ -114,7 +107,9 @@ export default function BusinessRegistrationStep1() {
         className="flex-1"
       >
         {/* Header */}
-        <View className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}>
+        <View
+          className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}
+        >
           <View className={`${tw.flexRow} items-center gap-2`}>
             <Pressable
               accessible={true}
@@ -125,7 +120,9 @@ export default function BusinessRegistrationStep1() {
             >
               <ChevronRight size={24} color="#71717a" />
             </Pressable>
-            <Text className={`text-white text-lg font-semibold ${tw.textStart}`}>
+            <Text
+              className={`text-white text-lg font-semibold ${tw.textStart}`}
+            >
               רישום בעל עסק
             </Text>
           </View>
@@ -153,8 +150,7 @@ export default function BusinessRegistrationStep1() {
             <Text
               className={`text-zinc-400 text-base mb-8 leading-6 ${tw.textStart}`}
             >
-              מלא את הפרטים הבאים כדי להצטרף לקהילת בעלי העסקים ולהתחיל
-              להשפיע
+              מלא את הפרטים הבאים כדי להצטרף לקהילת בעלי העסקים ולהתחיל להשפיע
             </Text>
 
             {/* Logo Upload */}
@@ -236,7 +232,9 @@ export default function BusinessRegistrationStep1() {
                   onPress={() => setShowFieldPicker(!showFieldPicker)}
                   className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4"
                 >
-                  <View className={`${tw.flexRow} items-center justify-between`}>
+                  <View
+                    className={`${tw.flexRow} items-center justify-between`}
+                  >
                     <Text
                       className={`${
                         businessField ? 'text-white' : 'text-zinc-500'
@@ -248,7 +246,9 @@ export default function BusinessRegistrationStep1() {
                       size={20}
                       color="#71717a"
                       style={{
-                        transform: [{ rotate: showFieldPicker ? '90deg' : '0deg' }],
+                        transform: [
+                          { rotate: showFieldPicker ? '90deg' : '0deg' },
+                        ],
                       }}
                     />
                   </View>
@@ -338,7 +338,9 @@ export default function BusinessRegistrationStep1() {
                 <ActivityIndicator color="#ffffff" />
               ) : (
                 <View className={`${tw.flexRow} items-center gap-2`}>
-                  <Text className="text-white text-lg font-bold">המשך לשלב הבא</Text>
+                  <Text className="text-white text-lg font-bold">
+                    המשך לשלב הבא
+                  </Text>
                   <ChevronLeft size={20} color="#ffffff" />
                 </View>
               )}
