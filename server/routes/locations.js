@@ -27,7 +27,7 @@ router.post('/late-response/:eventId', (req, res) => {
 router.post('/share/:eventId', (req, res) => {
   const { eventId } = req.params;
   const { lat, lng } = req.body;
-  
+
   if (!lat || !lng) {
     return res.status(400).json({ error: 'נדרשים קו רוחב וקו אורך' });
   }
