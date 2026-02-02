@@ -22,7 +22,17 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
 
-app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// Allow CORS from web client and Expo
+app.use(cors({ 
+  origin: [
+    'http://localhost:5173',  // Vite dev server
+    'http://localhost:19000',  // Expo DevTools
+    'http://localhost:8081',   // Expo Metro bundler
+    'exp://localhost:8081',     // Expo protocol
+    /^exp:\/\/.*/,              // All Expo URLs
+  ],
+  credentials: true 
+}));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
