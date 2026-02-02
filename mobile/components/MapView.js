@@ -1,91 +1,56 @@
-import { useEffect, useRef } from 'react';
-import MapView from 'react-native-maps';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, Linking, TouchableOpacity } from 'react-native';
 
 export default function CustomMapView({ events, businessLocation }) {
-  const mapRef = useRef(null);
-
-  useEffect(() => {
-    if (!mapRef.current) return;
-    
-    const locations = events
-      .filter(e => e.location)
-      .map(e => ({
-        latitude: e.location.lat,
-        longitude: e.location.lng,
-        eventId: e.id,
-      }));
-
-    if (businessLocation) {
-      locations.unshift({
-        latitude: businessLocation.lat,
-        longitude: businessLocation.lng,
-        isBusiness: true,
-      });
-    }
-
-    if (locations.length > 0) {
-      mapRef.current.fitToCoordinates(
-        locations.map(loc => ({
-          latitude: loc.latitude,
-          longitude: loc.longitude,
-        })),
-        {
-          edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
-          animated: true,
-        }
-      );
-    }
-  }, [events, businessLocation]);
+  const locations = events.filter(e => e.location);
 
   return (
     <View style={styles.container}>
-      <MapView
-        ref={mapRef}
-        style={styles.map}
-        initialRegion={{
-          latitude: 32.0853,
-          longitude: 34.7818,
-          latitudeDelta: 0.1,
-          longitudeDelta: 0.1,
-        }}
-      >
+      <ScrollView style={styles.mapContent}>
+        <Text style={styles.title}>מיקומים</Text>
+        
         {businessLocation && (
-          <MapView.Marker
-            coordinate={{
-              latitude: businessLocation.lat,
-              longitude: businessLocation.lng,
-            }}
-            pinColor="blue"
-            title="מיקום העסק"
-          />
-        )}
-        {events
-          .filter(e => e.location)
-          .map(event => (
-            <MapView.Marker
-              key={event.id}
-              coordinate={{
-                latitude: event.location.lat,
-                longitude: event.location.lng,
-              }}
-              pinColor="red"
-              title={event.summary}
-            />
-          ))}
-      </MapView>
-      <View style={styles.legend}>
-        {businessLocation && (
-          <View style={styles.legendItem}>
-            <View style={[styles.pin, styles.businessPin]} />
-            <Text>מיקום העסק</Text>
+          <View style={styles.locationCard}>
+            <View style={styles.locationHeader}>
+              <View style={[styles.pin, styles.businessPin]} />
+              <Text style={styles.locationTitle}>מיקום העסק</Text>
+            </View>
+            <Text style={styles.coordinates}>
+              {businessLocation.lat.toFixed(6)}, {businessLocation.lng.toFixed(6)}
+            </Text>
+            <TouchableOpacity onPress={() => {
+              const url = `https://www.google.com/maps?q=${businessLocation.lat},${businessLocation.lng}`;
+              Linking.openURL(url);
+            }}>
+              <Text style={styles.link}>פתח ב-Google Maps</Text>
+            </TouchableOpacity>
           </View>
         )}
-        <View style={styles.legendItem}>
-          <View style={[styles.pin, styles.clientPin]} />
-          <Text>לקוח</Text>
-        </View>
-      </View>
+
+        {locations.map(event => (
+          <View key={event.id} style={styles.locationCard}>
+            <View style={styles.locationHeader}>
+              <View style={[styles.pin, styles.clientPin]} />
+              <Text style={styles.locationTitle}>{event.summary}</Text>
+            </View>
+            <Text style={styles.coordinates}>
+              {event.location.lat.toFixed(6)}, {event.location.lng.toFixed(6)}
+            </Text>
+            {event.distanceKm != null && (
+              <Text style={styles.distance}>{event.distanceKm} ק״מ מהעסק</Text>
+            )}
+            <TouchableOpacity onPress={() => {
+              const url = `https://www.google.com/maps?q=${event.location.lat},${event.location.lng}`;
+              Linking.openURL(url);
+            }}>
+              <Text style={styles.link}>פתח ב-Google Maps</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+
+        {locations.length === 0 && !businessLocation && (
+          <Text style={styles.emptyText}>אין מיקומים להצגה</Text>
+        )}
+      </ScrollView>
     </View>
   );
 }
@@ -93,33 +58,66 @@ export default function CustomMapView({ events, businessLocation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#f5f5f5',
   },
-  map: {
+  mapContent: {
     flex: 1,
+    padding: 16,
   },
-  legend: {
-    position: 'absolute',
-    bottom: 20,
-    left: 20,
-    backgroundColor: 'white',
-    padding: 10,
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  locationCard: {
+    backgroundColor: '#fff',
+    padding: 16,
     borderRadius: 8,
+    marginBottom: 12,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
-  legendItem: {
+  locationHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
+    marginBottom: 8,
+  },
+  locationTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginLeft: 8,
+  },
+  coordinates: {
+    fontSize: 14,
+    color: '#666',
+    marginBottom: 4,
+    fontFamily: 'monospace',
+  },
+  distance: {
+    fontSize: 14,
+    color: '#4285F4',
+    fontWeight: '600',
+    marginBottom: 8,
+  },
+  link: {
+    fontSize: 14,
+    color: '#4285F4',
+    textDecorationLine: 'underline',
+    marginTop: 8,
+  },
+  emptyText: {
+    fontSize: 16,
+    color: '#999',
+    textAlign: 'center',
+    marginTop: 40,
   },
   pin: {
     width: 16,
     height: 16,
     borderRadius: 8,
-    marginRight: 8,
   },
   businessPin: {
     backgroundColor: '#4285F4',
