@@ -119,17 +119,17 @@ export default function AppointmentSuccessScreen() {
       >
         <View className="items-center">
           {/* Success Icon */}
-          <View className="mb-6">
-            <View className="w-24 h-24 rounded-full bg-green-500/20 items-center justify-center">
-              <CheckCircle size={64} color="#10b981" />
+          <View className="mb-8">
+            <View className="w-32 h-32 rounded-full bg-sky-500/20 items-center justify-center border-4 border-sky-400">
+              <CheckCircle size={80} color="#0ea5e9" />
             </View>
           </View>
 
           {/* Title */}
           <Text
-            className={`text-3xl font-bold text-white mb-3 text-center ${tw.textStart}`}
+            className={`text-3xl font-bold text-white mb-6 text-center ${tw.textStart}`}
           >
-            הפגישה נוצרה בהצלחה!
+            התור נקבע בהצלחה!
           </Text>
 
           {/* Summary */}

@@ -38,6 +38,7 @@ export default function SelectDateTimeScreen() {
   const [preferredOption, setPreferredOption] = useState<
     'earliest' | 'preferred' | null
   >(null);
+  const [activeTab, setActiveTab] = useState<'date' | 'time'>('date');
 
   const availableSlots = generateAvailableSlots(selectedDate);
 
@@ -99,156 +100,181 @@ export default function SelectDateTimeScreen() {
         <Text className={`text-white text-lg font-semibold ${tw.textStart}`}>
           בחר תאריך ושעה
         </Text>
-        <View className="w-12" />
+        <Text className="text-zinc-400 text-sm">2/3</Text>
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <View className="px-6 py-6">
-          {/* Service Info */}
-          <View className="mb-6 bg-zinc-900/50 rounded-xl p-4">
-            <Text className={`text-zinc-400 text-sm mb-1 ${tw.textStart}`}>
-              שירות נבחר
-            </Text>
-            <Text
-              className={`text-white text-lg font-semibold ${tw.textStart}`}
-            >
-              {serviceName}
-            </Text>
-          </View>
-
-          {/* Date Selection */}
-          <View className="mb-6">
-            <Text
-              className={`text-white text-sm font-medium mb-3 ${tw.textStart}`}
-            >
-              בחר תאריך
-            </Text>
+          {/* Tabs */}
+          <View className="flex-row gap-2 mb-6 bg-zinc-900/50 rounded-xl p-1">
             <Pressable
               accessible={true}
               accessibilityRole="button"
-              onPress={() => setShowDatePicker(true)}
-              className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 flex-row items-center justify-between"
+              accessibilityLabel="בחירת תאריך"
+              onPress={() => setActiveTab('date')}
+              className={`flex-1 py-3 rounded-lg items-center ${
+                activeTab === 'date' ? 'bg-sky-400' : 'bg-transparent'
+              }`}
             >
-              <View className="flex-row items-center gap-3">
-                <Calendar size={20} color="#71717a" />
-                <Text className="text-white text-base">
-                  {formatDate(selectedDate)}
-                </Text>
-              </View>
+              <Text
+                className={`text-sm font-semibold ${
+                  activeTab === 'date' ? 'text-white' : 'text-zinc-400'
+                }`}
+              >
+                תאריך
+              </Text>
             </Pressable>
-            {showDatePicker && (
-              <DateTimePicker
-                value={selectedDate}
-                mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                minimumDate={new Date()}
-                onChange={(event, date) => {
-                  if (Platform.OS === 'android') {
-                    setShowDatePicker(false);
-                  }
-                  if (date) {
-                    setSelectedDate(date);
-                    setSelectedTime(null); // איפוס זמן כשמשנים תאריך
-                  }
-                  if (Platform.OS === 'ios' && event.type === 'dismissed') {
-                    setShowDatePicker(false);
-                  }
-                }}
-              />
-            )}
+            <Pressable
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel="בחירת שעה"
+              onPress={() => setActiveTab('time')}
+              className={`flex-1 py-3 rounded-lg items-center ${
+                activeTab === 'time' ? 'bg-sky-400' : 'bg-transparent'
+              }`}
+            >
+              <Text
+                className={`text-sm font-semibold ${
+                  activeTab === 'time' ? 'text-white' : 'text-zinc-400'
+                }`}
+              >
+                שעה
+              </Text>
+            </Pressable>
           </View>
 
-          {/* Quick Options */}
-          {availableSlots.length > 0 && (
+          {/* Date Selection */}
+          {activeTab === 'date' && (
             <View className="mb-6">
               <Text
                 className={`text-white text-sm font-medium mb-3 ${tw.textStart}`}
               >
-                אפשרויות מהירות
+                שעות פנויות
               </Text>
-              <View className="flex-row gap-3">
-                <Pressable
-                  accessible={true}
-                  accessibilityRole="button"
-                  accessibilityLabel="התור הקרוב ביותר"
-                  onPress={handleEarliestSlot}
-                  className={`flex-1 bg-zinc-900 border rounded-xl py-3 items-center ${
-                    preferredOption === 'earliest'
-                      ? 'border-sky-400 bg-sky-500/20'
-                      : 'border-zinc-800'
-                  }`}
-                >
-                  <Text
-                    className={`text-sm font-medium ${
-                      preferredOption === 'earliest'
-                        ? 'text-sky-400'
-                        : 'text-zinc-400'
-                    }`}
-                  >
-                    התור הקרוב ביותר
+              <Pressable
+                accessible={true}
+                accessibilityRole="button"
+                onPress={() => setShowDatePicker(true)}
+                className="bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-4 flex-row items-center justify-between"
+              >
+                <View className="flex-row items-center gap-3">
+                  <Calendar size={20} color="#71717a" />
+                  <Text className="text-white text-base">
+                    {formatDate(selectedDate)}
                   </Text>
-                  {preferredOption === 'earliest' && selectedTime && (
-                    <Text className="text-sky-400 text-xs mt-1">
-                      {selectedTime}
-                    </Text>
-                  )}
-                </Pressable>
-              </View>
+                </View>
+              </Pressable>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={selectedDate}
+                  mode="date"
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  minimumDate={new Date()}
+                  onChange={(event, date) => {
+                    if (Platform.OS === 'android') {
+                      setShowDatePicker(false);
+                    }
+                    if (date) {
+                      setSelectedDate(date);
+                      setSelectedTime(null); // איפוס זמן כשמשנים תאריך
+                    }
+                    if (Platform.OS === 'ios' && event.type === 'dismissed') {
+                      setShowDatePicker(false);
+                    }
+                  }}
+                />
+              )}
             </View>
           )}
 
           {/* Time Selection */}
-          <View className="mb-8">
-            <Text
-              className={`text-white text-sm font-medium mb-3 ${tw.textStart}`}
-            >
-              בחר שעה
-            </Text>
-            {availableSlots.length === 0 ? (
-              <View className="bg-zinc-900/50 rounded-xl p-6 items-center">
-                <Text className="text-zinc-400 text-base">
-                  אין זמנים פנויים בתאריך זה
+          {activeTab === 'time' && (
+            <View className="mb-8">
+              <Text
+                className={`text-white text-sm font-medium mb-3 ${tw.textStart}`}
+              >
+                שעות פנויות
+              </Text>
+              {availableSlots.length === 0 ? (
+                <View className="bg-zinc-900/50 rounded-xl p-6 items-center">
+                  <Text className="text-zinc-400 text-base">
+                    אין זמנים פנויים בתאריך זה
+                  </Text>
+                  <Text className="text-zinc-500 text-sm mt-2">
+                    נסה לבחור תאריך אחר
+                  </Text>
+                </View>
+              ) : (
+                <View className="flex-row flex-wrap gap-3">
+                  {availableSlots.map((slot) => (
+                    <Pressable
+                      key={slot}
+                      accessible={true}
+                      accessibilityRole="button"
+                      accessibilityLabel={`בחר שעה ${slot}`}
+                      onPress={() => {
+                        setSelectedTime(slot);
+                        setPreferredOption(null);
+                      }}
+                      className={`px-4 py-3 rounded-xl border ${
+                        selectedTime === slot
+                          ? 'bg-sky-400 border-sky-400'
+                          : 'bg-zinc-900 border-zinc-800'
+                      }`}
+                    >
+                      <View className="flex-row items-center gap-2">
+                        <Clock
+                          size={16}
+                          color={selectedTime === slot ? '#ffffff' : '#71717a'}
+                        />
+                        <Text
+                          className={`text-sm font-medium ${
+                            selectedTime === slot
+                              ? 'text-white'
+                              : 'text-zinc-400'
+                          }`}
+                        >
+                          {slot}
+                        </Text>
+                      </View>
+                    </Pressable>
+                  ))}
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* Quick Options */}
+          {availableSlots.length > 0 && activeTab === 'time' && (
+            <View className="mb-6">
+              <Pressable
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityLabel="התור הקרוב ביותר"
+                onPress={handleEarliestSlot}
+                className={`bg-zinc-900 border rounded-xl py-3 items-center ${
+                  preferredOption === 'earliest'
+                    ? 'border-sky-400 bg-sky-500/20'
+                    : 'border-zinc-800'
+                }`}
+              >
+                <Text
+                  className={`text-sm font-medium ${
+                    preferredOption === 'earliest'
+                      ? 'text-sky-400'
+                      : 'text-zinc-400'
+                  }`}
+                >
+                  התור הקרוב ביותר
                 </Text>
-                <Text className="text-zinc-500 text-sm mt-2">
-                  נסה לבחור תאריך אחר
-                </Text>
-              </View>
-            ) : (
-              <View className="flex-row flex-wrap gap-3">
-                {availableSlots.map((slot) => (
-                  <Pressable
-                    key={slot}
-                    accessible={true}
-                    accessibilityRole="button"
-                    accessibilityLabel={`בחר שעה ${slot}`}
-                    onPress={() => {
-                      setSelectedTime(slot);
-                      setPreferredOption(null);
-                    }}
-                    className={`px-4 py-3 rounded-xl border ${
-                      selectedTime === slot
-                        ? 'bg-sky-400 border-sky-400'
-                        : 'bg-zinc-900 border-zinc-800'
-                    }`}
-                  >
-                    <View className="flex-row items-center gap-2">
-                      <Clock
-                        size={16}
-                        color={selectedTime === slot ? '#ffffff' : '#71717a'}
-                      />
-                      <Text
-                        className={`text-sm font-medium ${
-                          selectedTime === slot ? 'text-white' : 'text-zinc-400'
-                        }`}
-                      >
-                        {slot}
-                      </Text>
-                    </View>
-                  </Pressable>
-                ))}
-              </View>
-            )}
-          </View>
+                {preferredOption === 'earliest' && selectedTime && (
+                  <Text className="text-sky-400 text-xs mt-1">
+                    {selectedTime}
+                  </Text>
+                )}
+              </Pressable>
+            </View>
+          )}
 
           {/* Continue Button */}
           <Pressable

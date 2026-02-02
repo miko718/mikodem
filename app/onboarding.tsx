@@ -1,5 +1,13 @@
 import { useRouter } from 'expo-router';
-import { ChevronLeft, MapPin, Navigation, Zap } from 'lucide-react-native';
+import {
+  Bell,
+  ChevronLeft,
+  Laptop,
+  MapPin,
+  Navigation,
+  Phone,
+  Zap,
+} from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,22 +16,25 @@ import { tw } from '@/lib/rtl';
 
 const ONBOARDING_STEPS = [
   {
-    icon: MapPin,
+    icon: Laptop,
     title: 'ניהול תורים חכם',
     description:
       'מערכת ניהול תורים דינמית שמתאימה את עצמה למיקום הלקוחות בזמן אמת. לא עוד המתנות מיותרות או איחורים.',
+    illustration: 'laptop',
+  },
+  {
+    icon: Phone,
+    title: 'קביעת תורים פשוטה',
+    description:
+      'קביעת תורים מהירה ונוחה. המערכת תשלח לך התראה 5 דקות לפני התור.',
+    illustration: 'phone',
   },
   {
     icon: Navigation,
     title: 'חישוב ETA מדויק',
     description:
       'חישוב זמן הגעה משוער (ETA) כל 5 דקות עם Google Maps, תוך התחשבות בעומסי תנועה בזמן אמת.',
-  },
-  {
-    icon: Zap,
-    title: 'אופטימיזציה אוטומטית',
-    description:
-      'המערכת מזהה הזדמנויות להחלפת תורים ומציעה פתרונות חכמים כדי למנוע "חורים" ביומן ולצמצם לחץ.',
+    illustration: 'navigation',
   },
 ];
 
@@ -48,17 +59,36 @@ export default function OnboardingScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-black">
-      {/* Skip Button */}
-      <View className={`${tw.flexRow} justify-end px-6 pt-4`}>
-        <Pressable
-          accessible={true}
-          accessibilityRole="button"
-          accessibilityLabel="דלג"
-          onPress={handleSkip}
-          hitSlop={10}
-        >
-          <Text className="text-zinc-400 text-base">דלג</Text>
-        </Pressable>
+      {/* Header with step indicator */}
+      <View
+        className={`${tw.flexRow} items-center justify-between px-6 pt-4 pb-2`}
+      >
+        <View className="w-12" />
+        <Text className="text-zinc-400 text-sm">
+          {currentStep + 1}/{ONBOARDING_STEPS.length}
+        </Text>
+        {currentStep === 1 && (
+          <Pressable
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="חזור"
+            onPress={() => setCurrentStep(currentStep - 1)}
+            hitSlop={10}
+          >
+            <ChevronLeft size={24} color="#71717a" />
+          </Pressable>
+        )}
+        {currentStep === 1 && (
+          <Pressable
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="התראות"
+            onPress={() => {}}
+            hitSlop={10}
+          >
+            <Bell size={24} color="#71717a" />
+          </Pressable>
+        )}
       </View>
 
       <ScrollView
@@ -66,10 +96,34 @@ export default function OnboardingScreen() {
         contentContainerClassName="flex-1 justify-center items-center px-8"
         showsVerticalScrollIndicator={false}
       >
-        {/* Icon */}
-        <View className="mb-8">
-          <View className="w-24 h-24 rounded-full bg-sky-500/20 items-center justify-center">
-            <Icon size={48} color="#0ea5e9" />
+        {/* Illustration */}
+        <View className="mb-12">
+          <View className="w-48 h-48 rounded-3xl bg-sky-500/10 items-center justify-center border border-sky-500/20">
+            {currentStep === 0 && (
+              <View className="items-center">
+                <Laptop size={80} color="#0ea5e9" />
+                <View className="absolute -top-2 -right-2">
+                  <View className="w-8 h-8 rounded-full bg-sky-500/20 items-center justify-center">
+                    <MapPin size={16} color="#0ea5e9" />
+                  </View>
+                </View>
+              </View>
+            )}
+            {currentStep === 1 && (
+              <View className="items-center">
+                <Phone size={80} color="#0ea5e9" />
+                <View className="absolute -top-2 -right-2">
+                  <View className="w-8 h-8 rounded-full bg-green-500/20 items-center justify-center">
+                    <Zap size={16} color="#10b981" />
+                  </View>
+                </View>
+              </View>
+            )}
+            {currentStep === 2 && (
+              <View className="items-center">
+                <Navigation size={80} color="#0ea5e9" />
+              </View>
+            )}
           </View>
         </View>
 

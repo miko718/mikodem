@@ -38,15 +38,15 @@ export default function SplashScreen() {
   }, [isLoading, isAuthenticated, showContent, router]);
 
   return (
-    <SafeAreaView className="flex-1 bg-black items-center justify-center">
+    <SafeAreaView
+      className="flex-1 items-center justify-center"
+      style={{ backgroundColor: '#0ea5e9' }}
+    >
       <View className="items-center">
         {/* Logo */}
-        <View className="mb-6">
-          <View className="relative">
-            <View className="w-32 h-32 rounded-full border-4 border-sky-400 items-center justify-center bg-transparent">
-              <Text className="text-6xl font-bold text-sky-400">M</Text>
-            </View>
-            <View className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-sky-400" />
+        <View className="mb-8">
+          <View className="w-32 h-32 rounded-full bg-white/20 items-center justify-center">
+            <Text className="text-6xl font-bold text-white">M</Text>
           </View>
         </View>
 
@@ -54,16 +54,16 @@ export default function SplashScreen() {
         {showContent && (
           <View className="items-center">
             <Text
-              className={`text-4xl font-bold text-white mb-2 ${tw.textStart}`}
+              className={`text-4xl font-bold text-white mb-4 ${tw.textStart}`}
             >
               Mikodem
             </Text>
             <Text
-              className={`text-zinc-400 text-base mb-8 ${tw.textStart} text-center`}
+              className={`text-white/90 text-lg mb-12 ${tw.textStart} text-center`}
             >
-              ניהול תורים מבוסס מיקום
+              Simplify Your Schedule
             </Text>
-            <ActivityIndicator size="large" color="#0ea5e9" />
+            <ActivityIndicator size="large" color="#ffffff" />
           </View>
         )}
       </View>

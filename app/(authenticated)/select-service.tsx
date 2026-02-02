@@ -1,6 +1,13 @@
 import { useQuery } from 'convex/react';
 import { useRouter } from 'expo-router';
-import { Search } from 'lucide-react-native';
+import {
+  Key,
+  Scissors,
+  Search,
+  Sparkles,
+  Wind,
+  Wrench,
+} from 'lucide-react-native';
 import { useState } from 'react';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -10,14 +17,62 @@ import { tw } from '@/lib/rtl';
 
 // רשימת שירותים נפוצים (ניתן להעביר ל-DB בעתיד)
 const SERVICES = [
-  { id: 'consultation', name: 'ייעוץ', category: 'ייעוץ' },
-  { id: 'haircut', name: 'תספורת', category: 'יופי' },
-  { id: 'checkup', name: 'בדיקה', category: 'רפואה' },
-  { id: 'treatment', name: 'טיפול', category: 'רפואה' },
-  { id: 'design', name: 'עיצוב', category: 'עיצוב' },
-  { id: 'legal', name: 'ייעוץ משפטי', category: 'משפטים' },
-  { id: 'accounting', name: 'ייעוץ חשבונאי', category: 'חשבונאות' },
-  { id: 'coaching', name: 'אימון', category: 'אימון' },
+  {
+    id: 'dentist',
+    name: 'רופא שיניים',
+    category: 'רפואה',
+    icon: Sparkles,
+    color: '#10b981',
+  },
+  {
+    id: 'plumber',
+    name: 'שרברב',
+    category: 'בית',
+    icon: Wrench,
+    color: '#f59e0b',
+  },
+  {
+    id: 'hairdryer',
+    name: 'ייבוש שיער',
+    category: 'יופי',
+    icon: Wind,
+    color: '#8b5cf6',
+  },
+  {
+    id: 'haircut',
+    name: 'תספורת',
+    category: 'יופי',
+    icon: Scissors,
+    color: '#0ea5e9',
+  },
+  {
+    id: 'consultation',
+    name: 'ייעוץ',
+    category: 'ייעוץ',
+    icon: Key,
+    color: '#ec4899',
+  },
+  {
+    id: 'checkup',
+    name: 'בדיקה',
+    category: 'רפואה',
+    icon: Sparkles,
+    color: '#10b981',
+  },
+  {
+    id: 'treatment',
+    name: 'טיפול',
+    category: 'רפואה',
+    icon: Sparkles,
+    color: '#10b981',
+  },
+  {
+    id: 'design',
+    name: 'עיצוב',
+    category: 'עיצוב',
+    icon: Key,
+    color: '#ec4899',
+  },
 ];
 
 const CATEGORIES = [
@@ -54,6 +109,10 @@ export default function SelectServiceScreen() {
     });
   };
 
+  const [selectedServiceId, setSelectedServiceId] = useState<string | null>(
+    null
+  );
+
   return (
     <SafeAreaView className="flex-1 bg-[#0a0a0a]" edges={['top']}>
       {/* Header */}
@@ -70,9 +129,9 @@ export default function SelectServiceScreen() {
           <Text className="text-sky-400 text-base">ביטול</Text>
         </Pressable>
         <Text className={`text-white text-lg font-semibold ${tw.textStart}`}>
-          בחר שירות
+          בחירת שירות
         </Text>
-        <View className="w-12" />
+        <Text className="text-zinc-400 text-sm">1/3</Text>
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
@@ -92,41 +151,8 @@ export default function SelectServiceScreen() {
             </View>
           </View>
 
-          {/* Categories Filter */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            className="mb-6"
-            contentContainerStyle={{ gap: 8 }}
-          >
-            {CATEGORIES.map((category) => (
-              <Pressable
-                key={category}
-                accessible={true}
-                accessibilityRole="button"
-                accessibilityLabel={`סינון לפי ${category}`}
-                onPress={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-full ${
-                  selectedCategory === category
-                    ? 'bg-sky-400'
-                    : 'bg-zinc-900 border border-zinc-800'
-                }`}
-              >
-                <Text
-                  className={`text-sm font-medium ${
-                    selectedCategory === category
-                      ? 'text-white'
-                      : 'text-zinc-400'
-                  }`}
-                >
-                  {category}
-                </Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-
-          {/* Services List */}
-          <View className="gap-3">
+          {/* Services Grid */}
+          <View className="gap-4">
             {filteredServices.length === 0 ? (
               <View className="py-12 items-center">
                 <Text className="text-zinc-400 text-base">
@@ -137,30 +163,45 @@ export default function SelectServiceScreen() {
                 </Text>
               </View>
             ) : (
-              filteredServices.map((service) => (
-                <Pressable
-                  key={service.id}
-                  accessible={true}
-                  accessibilityRole="button"
-                  accessibilityLabel={`בחר ${service.name}`}
-                  onPress={() => handleSelectService(service.id, service.name)}
-                  className="bg-zinc-900/50 border border-zinc-800 rounded-xl p-4"
-                >
-                  <View className="flex-row items-center justify-between">
-                    <View className="flex-1">
+              <View className="flex-row flex-wrap gap-4">
+                {filteredServices.slice(0, 4).map((service) => {
+                  const Icon = service.icon;
+                  const isSelected = selectedServiceId === service.id;
+                  return (
+                    <Pressable
+                      key={service.id}
+                      accessible={true}
+                      accessibilityRole="button"
+                      accessibilityLabel={`בחר ${service.name}`}
+                      onPress={() => {
+                        setSelectedServiceId(service.id);
+                        handleSelectService(service.id, service.name);
+                      }}
+                      className={`w-[calc(50%-8px)] aspect-square bg-zinc-900/50 border rounded-2xl p-4 items-center justify-center ${
+                        isSelected
+                          ? 'border-green-500 bg-green-500/10'
+                          : 'border-zinc-800'
+                      }`}
+                    >
+                      <View
+                        className="w-16 h-16 rounded-xl items-center justify-center mb-3"
+                        style={{
+                          backgroundColor: `${service.color}20`,
+                        }}
+                      >
+                        <Icon size={32} color={service.color} />
+                      </View>
                       <Text
-                        className={`text-white text-lg font-semibold mb-1 ${tw.textStart}`}
+                        className={`text-sm font-semibold text-center ${
+                          isSelected ? 'text-green-400' : 'text-white'
+                        } ${tw.textStart}`}
                       >
                         {service.name}
                       </Text>
-                      <Text className={`text-zinc-400 text-sm ${tw.textStart}`}>
-                        {service.category}
-                      </Text>
-                    </View>
-                    <View className="w-2 h-2 rounded-full bg-sky-400" />
-                  </View>
-                </Pressable>
-              ))
+                    </Pressable>
+                  );
+                })}
+              </View>
             )}
           </View>
         </View>
