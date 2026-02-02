@@ -35,8 +35,6 @@ router.get('/events', async (req, res) => {
     const events = (data.items || []).map(event => {
       const start = new Date(event.start?.dateTime || event.start?.date);
       const end = new Date(event.end?.dateTime || event.end?.date);
-      const inWindow = start.getTime() - now.getTime() <= THIRTY_MINUTES && 
-                      start.getTime() - now.getTime() >= -THIRTY_MINUTES * 2;
       
       return {
         id: event.id,

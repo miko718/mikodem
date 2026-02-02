@@ -5,7 +5,7 @@ import session from 'express-session';
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { dirname } from 'path';
 import authRoutes from './routes/auth.js';
 import calendarRoutes from './routes/calendar.js';
 import locationRoutes from './routes/locations.js';

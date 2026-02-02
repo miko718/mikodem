@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-export default function MapView({ events, businessLocation, onSetBusinessLocation }) {
+export default function MapView({ events, businessLocation }) {
   const mapRef = useRef(null)
   const mapInstanceRef = useRef(null)
 

@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import { Linking, Alert } from 'react-native';
 import API_BASE_URL from '../config/API';
@@ -9,21 +9,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    checkAuth();
-    // Listen for deep links
-    const subscription = Linking.addEventListener('url', handleDeepLink);
-    return () => subscription?.remove();
-  }, []);
-
-  const handleDeepLink = (event) => {
-    const { url } = event;
-    if (url.includes('/api/auth/google/callback')) {
-      checkAuth();
-    }
-  };
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/auth/me`);
       if (response.ok) {
@@ -38,7 +24,22 @@ export function AuthProvider({ children }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  const handleDeepLink = useCallback((event) => {
+    const { url } = event;
+    if (url.includes('/api/auth/google/callback')) {
+      checkAuth();
+    }
+  }, [checkAuth]);
+
+  useEffect(() => {
+    checkAuth();
+    // Listen for deep links
+    const subscription = Linking.addEventListener('url', handleDeepLink);
+    return () => subscription?.remove();
+  }, [checkAuth, handleDeepLink]);
+
 
   const login = async () => {
     // Get base URL without /api

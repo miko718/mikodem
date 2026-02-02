@@ -28,7 +28,7 @@ function calcDistance(lat1, lon1, lat2, lon2) {
 }
 
 export default function DashboardScreen() {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const [events, setEvents] = useState([]);
   const [locations, setLocations] = useState({});
   const [businessLocation, setBusinessLocation] = useState(null);
@@ -61,10 +61,7 @@ export default function DashboardScreen() {
       setEvents(data);
       if (data?.length) {
         const ids = data.map((e) => e.id).join(',');
-        const [locRes, lateRes] = await Promise.all([
-          fetch(`${API_BASE_URL}/locations/for-events?ids=${ids}`),
-          fetch(`${API_BASE_URL}/locations/late-responses?ids=${ids}`),
-        ]);
+        const locRes = await fetch(`${API_BASE_URL}/locations/for-events?ids=${ids}`);
         if (locRes.ok) {
           const locs = await locRes.json();
           setLocations(locs);
@@ -111,7 +108,7 @@ export default function DashboardScreen() {
         setBusinessSet(true);
         Alert.alert('הצלחה', 'מיקום העסק נשמר בהצלחה');
       }
-    } catch (error) {
+    } catch {
       Alert.alert('שגיאה', 'לא הצלחנו לקבל את המיקום');
     }
   };

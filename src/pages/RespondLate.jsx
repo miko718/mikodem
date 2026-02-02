@@ -7,7 +7,6 @@ const CHOICES = { postpone: 'דחייה', reschedule: 'תור חדש' }
 
 export default function RespondLate() {
   const { eventId, choice } = useParams()
-  const navigate = useNavigate()
   const [submitted, setSubmitted] = useState(false)
 
   const isValid = choice === 'postpone' || choice === 'reschedule'
@@ -19,7 +18,7 @@ export default function RespondLate() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ choice })
       })
-    } catch (e) {
+    } catch {
       // Continue anyway - show confirmation
     }
     setSubmitted(true)

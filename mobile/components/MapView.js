@@ -7,7 +7,7 @@ export default function CustomMapView({ events, businessLocation }) {
     <View style={styles.container}>
       <ScrollView style={styles.mapContent}>
         <Text style={styles.title}>מיקומים</Text>
-        
+
         {businessLocation && (
           <View style={styles.locationCard}>
             <View style={styles.locationHeader}>

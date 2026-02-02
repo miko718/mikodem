@@ -20,7 +20,6 @@ function calcDistance(lat1, lon1, lat2, lon2) {
 export default function Dashboard() {
   const navigate = useNavigate()
   const { toast } = useToast()
-  const [user, setUser] = useState(null)
   const [events, setEvents] = useState([])
   const [locations, setLocations] = useState({})
   const [lateResponses, setLateResponses] = useState({})
@@ -36,7 +35,6 @@ export default function Dashboard() {
       return null
     }
     const u = await res.json()
-    setUser(u)
     return u
   }, [navigate])
 
