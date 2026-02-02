@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import * as WebBrowser from 'expo-web-browser';
-import { Linking } from 'react-native';
+import { Linking, Alert } from 'react-native';
 import API_BASE_URL from '../config/API';
 
 const AuthContext = createContext();
@@ -41,17 +41,23 @@ export function AuthProvider({ children }) {
   };
 
   const login = async () => {
-    const authUrl = `${API_BASE_URL.replace('/api', '')}/api/auth/google`;
+    // Get base URL without /api
+    const baseUrl = API_BASE_URL.replace('/api', '');
+    const authUrl = `${baseUrl}/api/auth/google`;
     try {
       const result = await WebBrowser.openAuthSessionAsync(
         authUrl,
         'mikodem://'
       );
       if (result.type === 'success') {
-        await checkAuth();
+        // Wait a bit for the session to complete
+        setTimeout(() => {
+          checkAuth();
+        }, 1000);
       }
     } catch (error) {
       console.error('Login failed:', error);
+      Alert.alert('שגיאה', 'לא הצלחנו להתחבר. נסה שוב.');
     }
   };
 

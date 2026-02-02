@@ -5,7 +5,6 @@ import LoginScreen from './screens/LoginScreen';
 import DashboardScreen from './screens/DashboardScreen';
 import ShareLocationScreen from './screens/ShareLocationScreen';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
-import { Linking } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
