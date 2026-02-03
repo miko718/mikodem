@@ -27,8 +27,9 @@ export function ToastProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components -- hook used by components
 export function useToast() {
   const ctx = useContext(ToastContext)
-  if (!ctx) return { toast: () => {} }
+  if (!ctx) return { toast: () => { } }
   return ctx
 }
