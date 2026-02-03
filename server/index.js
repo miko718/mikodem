@@ -6,6 +6,7 @@ import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { jwtAuth } from './middleware/jwtAuth.js';
 import authRoutes from './routes/auth.js';
 import calendarRoutes from './routes/calendar.js';
 import locationRoutes from './routes/locations.js';
@@ -14,7 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Session for Google OAuth
+// Session for Google OAuth (web)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'mikodem-secret',
   resave: false,
@@ -23,17 +24,22 @@ app.use(session({
 }));
 
 // Allow CORS from web client and Expo
-app.use(cors({ 
+app.use(cors({
   origin: [
-    'http://localhost:5173',  // Vite dev server
-    'http://localhost:19000',  // Expo DevTools
-    'http://localhost:8081',   // Expo Metro bundler
-    'exp://localhost:8081',     // Expo protocol
-    /^exp:\/\/.*/,              // All Expo URLs
+    'http://localhost:5173',   // Vite dev server
+    'http://localhost:19000', // Expo DevTools
+    'http://localhost:8081',  // Expo Metro
+    'exp://localhost:8081',
+    /^exp:\/\/.*/,
+    /^http:\/\/192\.168\.\d+\.\d+:\d+$/, // LAN (Expo on device)
   ],
-  credentials: true 
+  credentials: true
 }));
 app.use(express.json());
+
+// Expo: accept JWT from Authorization header (before passport)
+app.use(jwtAuth);
+
 app.use(passport.initialize());
 app.use(passport.session());
 

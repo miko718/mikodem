@@ -6,7 +6,8 @@ const router = Router();
 
 // Middleware לאימות משתמשים (רק לבעל העסק)
 function requireAuth(req, res, next) {
-  if (!req.isAuthenticated()) {
+  const authenticated = typeof req.isAuthenticated === 'function' ? req.isAuthenticated() : !!req.user;
+  if (!authenticated) {
     return res.status(401).json({ error: 'נדרשת התחברות' });
   }
   next();

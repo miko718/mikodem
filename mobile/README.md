@@ -24,23 +24,28 @@ npm run web
 
 ## תכונות
 
-- ✅ התחברות עם Google OAuth
+- ✅ התחברות עם Google OAuth (מותאם ל-Expo עם JWT)
 - ✅ הצגת פגישות מ-Google Calendar
-- ✅ מפה עם מיקומי לקוחות ועסק
+- ✅ מיקומים וקישורים ל-Google Maps
 - ✅ שיתוף מיקום אוטומטי (כל 30 שניות)
-- ✅ Deep linking לקישורי שיתוף מיקום
+- ✅ Deep linking: `mikodem://share/:eventId`, `mikodem://auth/callback`
+
+## חיבור ל-Expo
+
+השרת תומך באפליקציית Expo עם התחברות Google:
+1. באפליקציה לוחצים "התחבר עם Google" – נפתח דפדפן
+2. אחרי האימות השרת מחזיר אתכם לאפליקציה עם token (JWT)
+3. ה-token נשמר ומשולח בכל קריאות ה-API
 
 ## הגדרות
 
-ערוך את `config/API.js` כדי להגדיר את כתובת ה-API:
+ערוך את `config/API.js` לפי הסביבה:
 
-```javascript
-const API_BASE_URL = __DEV__ 
-  ? 'http://localhost:3001/api'  // Development
-  : 'https://your-production-api.com/api';  // Production
-```
+- **iOS Simulator**: `http://localhost:3001/api`
+- **Android Emulator**: `http://10.0.2.2:3001/api`
+- **מכשיר פיזי**: `http://כתובת-ה-IP-של-המחשב:3001/api` (אותו רשת)
 
-**הערה**: ב-iOS Simulator, השתמש ב-`localhost`. ב-Android Emulator, השתמש ב-`10.0.2.2` במקום `localhost`.
+דוגמה למכשיר פיזי: `http://192.168.1.130:3001/api`
 
 ## Deep Linking
 

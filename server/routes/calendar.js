@@ -6,7 +6,8 @@ const router = Router();
 const THIRTY_MINUTES = 30 * 60 * 1000;
 
 function ensureAuth(req, res, next) {
-  if (!req.isAuthenticated() || !req.user?.accessToken) {
+  const authenticated = typeof req.isAuthenticated === 'function' ? req.isAuthenticated() : !!req.user;
+  if (!authenticated || !req.user?.accessToken) {
     return res.status(401).json({ error: 'יש להתחבר עם Google' });
   }
   next();
@@ -18,7 +19,7 @@ router.get('/events', async (req, res) => {
   try {
     const oauth2Client = new google.auth.OAuth2();
     oauth2Client.setCredentials({ access_token: req.user.accessToken });
-    
+
     const calendar = google.calendar({ version: 'v3', auth: oauth2Client });
     const now = new Date();
     const windowStart = new Date(now.getTime() - 15 * 60 * 1000); // 15 min ago
@@ -35,7 +36,7 @@ router.get('/events', async (req, res) => {
     const events = (data.items || []).map(event => {
       const start = new Date(event.start?.dateTime || event.start?.date);
       const end = new Date(event.end?.dateTime || event.end?.date);
-      
+
       return {
         id: event.id,
         summary: event.summary || 'פגישה ללא כותרת',

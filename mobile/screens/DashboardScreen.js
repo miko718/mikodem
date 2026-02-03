@@ -20,15 +20,15 @@ function calcDistance(lat1, lon1, lat2, lon2) {
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos((lat1 * Math.PI) / 180) *
-      Math.cos((lat2 * Math.PI) / 180) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos((lat2 * Math.PI) / 180) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
 export default function DashboardScreen() {
-  const { logout } = useAuth();
+  const { logout, fetchWithAuth } = useAuth();
   const [events, setEvents] = useState([]);
   const [locations, setLocations] = useState({});
   const [businessLocation, setBusinessLocation] = useState(null);
@@ -38,7 +38,7 @@ export default function DashboardScreen() {
 
   const loadBusinessLocation = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/locations/business`);
+      const res = await fetchWithAuth(`${API_BASE_URL}/locations/business`);
       if (res.ok) {
         const data = await res.json();
         if (data?.lat) {
@@ -51,17 +51,17 @@ export default function DashboardScreen() {
       console.error('Failed to load business location:', error);
     }
     return null;
-  }, []);
+  }, [fetchWithAuth]);
 
   const loadEvents = useCallback(async () => {
     try {
-      const res = await fetch(`${API_BASE_URL}/calendar/events`);
+      const res = await fetchWithAuth(`${API_BASE_URL}/calendar/events`);
       if (!res.ok) return;
       const data = await res.json();
       setEvents(data);
       if (data?.length) {
         const ids = data.map((e) => e.id).join(',');
-        const locRes = await fetch(`${API_BASE_URL}/locations/for-events?ids=${ids}`);
+        const locRes = await fetchWithAuth(`${API_BASE_URL}/locations/for-events?ids=${ids}`);
         if (locRes.ok) {
           const locs = await locRes.json();
           setLocations(locs);
@@ -70,7 +70,7 @@ export default function DashboardScreen() {
     } catch (error) {
       console.error('Failed to load events:', error);
     }
-  }, []);
+  }, [fetchWithAuth]);
 
   useEffect(() => {
     (async () => {
@@ -94,7 +94,7 @@ export default function DashboardScreen() {
       }
 
       const location = await Location.getCurrentPositionAsync({});
-      const res = await fetch(`${API_BASE_URL}/locations/business`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/locations/business`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
