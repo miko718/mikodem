@@ -4,6 +4,17 @@
 
 - **Repository:** https://github.com/miko718/mikodem-991
 - **Remote:** `origin` → `https://github.com/miko718/mikodem-991.git`
+- **Branch:** `main`
+- **Commit ראשון:** הוכן ומוכן ל-push
+
+## צעד 1: צור את הריפו ב-GitHub
+
+1. היכנס ל-**https://github.com/new**
+2. **Repository name:** `mikodem-991`
+3. **Description:** אפליקציית Mikodem – מערכת תורים חכמה (Expo)
+4. בחר **Public**
+5. **אל תסמן** "Add a README" – הקוד כבר קיים אצלך
+6. לחץ **Create repository**
 
 ## התחברות ל-GitHub (לפני push)
 
