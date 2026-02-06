@@ -39,7 +39,7 @@ export default function ExploreScreen() {
         <Text style={styles.cardCategory}>{item.category}</Text>
         <Text style={styles.cardAddress} numberOfLines={1}>{item.address}</Text>
       </View>
-      <IconSymbol name="chevron.right" size={20} color="#999" />
+      <IconSymbol name="chevron.right" size={20} color="#666" />
     </Pressable>
   );
 
@@ -48,11 +48,11 @@ export default function ExploreScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>חיפוש עסקים</Text>
         <View style={styles.searchBox}>
-          <IconSymbol name="magnifyingglass" size={20} color="#999" />
+          <IconSymbol name="magnifyingglass" size={20} color="#666" />
           <TextInput
             style={styles.searchInput}
             placeholder="חפש לפי שם, קטגוריה או מיקום..."
-            placeholderTextColor="#999"
+            placeholderTextColor="#666"
             value={search}
             onChangeText={setSearch}
           />
@@ -77,33 +77,35 @@ export default function ExploreScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0f',
   },
   header: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: 'rgba(255,255,255,0.1)',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     marginBottom: 16,
   },
   searchBox: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: 'rgba(255,255,255,0.08)',
     borderRadius: 12,
     paddingHorizontal: 16,
     paddingVertical: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   searchInput: {
     flex: 1,
     fontSize: 16,
-    color: '#111',
+    color: '#fff',
   },
   list: {
     padding: 16,
@@ -112,10 +114,12 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     padding: 16,
     borderRadius: 12,
     marginBottom: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   iconWrap: {
     width: 48,
@@ -134,11 +138,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
   },
   cardCategory: {
     fontSize: 14,
-    color: '#666',
+    color: '#a0a0a0',
     marginTop: 2,
   },
   empty: {
@@ -147,6 +151,6 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 16,
-    color: '#999',
+    color: '#666',
   },
 });

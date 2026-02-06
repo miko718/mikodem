@@ -1,10 +1,20 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
+export type UserStats = {
+  level: number;
+  xp: number;
+  streakDays: number;
+  completedAppointments: number;
+};
+
 export type User = {
   id: string;
   displayName: string;
   email?: string;
   phone?: string;
+  avatarUrl?: string;
+  rank?: string;
+  stats?: UserStats;
 };
 
 type AuthContextType = {
@@ -24,9 +34,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const login = useCallback(() => {
     setUser({
-      id: '1',
-      displayName: 'משתמש לדוגמה',
+      id: 'usr_992834',
+      displayName: 'NeoCoder',
       email: 'user@example.com',
+      rank: 'Cyber Elite',
+      stats: {
+        level: 12,
+        xp: 4500,
+        streakDays: 5,
+        completedAppointments: 47,
+      },
     });
   }, []);
 

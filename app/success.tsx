@@ -45,7 +45,7 @@ export default function SuccessScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0a0a0f',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
@@ -61,13 +61,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     marginBottom: 8,
     textAlign: 'center',
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
     marginBottom: 48,
     textAlign: 'center',
   },

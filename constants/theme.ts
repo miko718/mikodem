@@ -8,18 +8,29 @@ import { Platform } from 'react-native';
 const tintColorLight = '#2563eb'; // Mikodem primary - blue
 const tintColorDark = '#60a5fa';
 
+/** Mikodem dark theme - used across all app screens */
+export const DarkTheme = {
+  background: '#0a0a0f',
+  surface: '#15151f',
+  surfaceLight: 'rgba(255,255,255,0.08)',
+  text: '#ffffff',
+  textSecondary: '#a0a0a0',
+  textMuted: '#666',
+  border: 'rgba(255,255,255,0.1)',
+};
+
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
+    text: '#ffffff',
+    background: DarkTheme.background,
     tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
+    icon: '#a0a0a0',
+    tabIconDefault: '#666',
     tabIconSelected: tintColorLight,
   },
   dark: {
     text: '#ECEDEE',
-    background: '#151718',
+    background: DarkTheme.background,
     tint: tintColorDark,
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',

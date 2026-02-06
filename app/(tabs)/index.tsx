@@ -85,18 +85,18 @@ export default function DashboardScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0f',
   },
   header: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: 'rgba(255,255,255,0.1)',
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
   },
   scroll: {
     flex: 1,
@@ -104,25 +104,26 @@ const styles = StyleSheet.create({
   card: {
     margin: 16,
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     borderRadius: 16,
-    borderWidth: 2,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   upcomingCard: {},
   cardLabel: {
     fontSize: 12,
-    color: '#666',
+    color: '#a0a0a0',
     marginBottom: 4,
   },
   businessName: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     marginBottom: 4,
   },
   serviceName: {
     fontSize: 16,
-    color: '#444',
+    color: '#a0a0a0',
     marginBottom: 12,
   },
   row: {
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
   },
   detail: {
     fontSize: 15,
-    color: '#555',
+    color: '#a0a0a0',
   },
   navButton: {
     flexDirection: 'row',
@@ -152,24 +153,26 @@ const styles = StyleSheet.create({
   emptyCard: {
     margin: 16,
     padding: 40,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     borderRadius: 16,
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   emptyTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#666',
+    color: '#a0a0a0',
     marginBottom: 8,
   },
   emptySubtitle: {
     fontSize: 14,
-    color: '#999',
+    color: '#666',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
     marginHorizontal: 16,
     marginTop: 24,
     marginBottom: 12,
@@ -181,17 +184,19 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 8,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   historyBusiness: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
   },
   historyService: {
     fontSize: 14,
-    color: '#666',
+    color: '#a0a0a0',
     marginTop: 4,
   },
   rebookText: {

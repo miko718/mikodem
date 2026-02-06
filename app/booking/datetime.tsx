@@ -47,7 +47,7 @@ export default function DateTimeScreen() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Pressable style={styles.backBtn} onPress={() => router.back()}>
-        <IconSymbol name="arrow.backward" size={24} color="#111" />
+        <IconSymbol name="arrow.backward" size={24} color="#fff" />
         <Text style={styles.backText}>חזרה</Text>
       </Pressable>
       <View style={styles.header}>
@@ -102,7 +102,7 @@ export default function DateTimeScreen() {
       <Pressable
         style={[
           styles.nextBtn,
-          { backgroundColor: selectedDate && selectedTime ? tint : '#ccc', bottom: insets.bottom + 20 },
+          { backgroundColor: selectedDate && selectedTime ? tint : '#333', bottom: insets.bottom + 20 },
         ]}
         onPress={handleNext}
         disabled={!selectedDate || !selectedTime}>
@@ -115,33 +115,33 @@ export default function DateTimeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0f',
   },
   backBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
   },
   backText: {
     fontSize: 16,
-    color: '#111',
+    color: '#fff',
   },
   header: {
     padding: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: 'rgba(255,255,255,0.1)',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
   },
   subtitle: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
     marginTop: 4,
   },
   scroll: {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
     margin: 16,
     marginBottom: 8,
   },
@@ -162,12 +162,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 12,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     marginRight: 10,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   dayLabel: {
     fontSize: 15,
-    color: '#333',
+    color: '#a0a0a0',
   },
   dayLabelSelected: {
     color: '#fff',
@@ -183,12 +185,14 @@ const styles = StyleSheet.create({
     width: '30%',
     paddingVertical: 14,
     borderRadius: 10,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   timeLabel: {
     fontSize: 15,
-    color: '#333',
+    color: '#a0a0a0',
   },
   timeLabelSelected: {
     color: '#fff',

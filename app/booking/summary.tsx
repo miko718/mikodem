@@ -36,7 +36,7 @@ export default function SummaryScreen() {
   return (
     <View style={[styles.container, { paddingTop: insets.top, paddingBottom: insets.bottom + 100 }]}>
       <Pressable style={styles.backBtn} onPress={() => router.back()}>
-        <IconSymbol name="arrow.backward" size={24} color="#111" />
+        <IconSymbol name="arrow.backward" size={24} color="#fff" />
         <Text style={styles.backText}>חזרה</Text>
       </Pressable>
       <View style={styles.header}>
@@ -84,7 +84,7 @@ export default function SummaryScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0f',
     padding: 20,
   },
   backBtn: {
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   },
   backText: {
     fontSize: 16,
-    color: '#111',
+    color: '#fff',
   },
   header: {
     marginBottom: 24,
@@ -104,18 +104,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
   },
   card: {
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     borderRadius: 16,
     padding: 24,
     marginBottom: 32,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.1)',
   },
   businessName: {
     fontSize: 22,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     marginBottom: 20,
   },
   row: {
@@ -125,12 +127,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
   },
   value: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
   },
   actions: {
     gap: 12,
@@ -151,6 +153,6 @@ const styles = StyleSheet.create({
   },
   cancelBtnText: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
   },
 });

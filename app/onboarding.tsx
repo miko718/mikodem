@@ -108,7 +108,7 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0a0a0f',
   },
   skipButton: {
     position: 'absolute',
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   skipText: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
   },
   slide: {
     width,
@@ -141,13 +141,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     textAlign: 'center',
     marginBottom: 16,
   },
   subtitle: {
     fontSize: 18,
-    color: '#666',
+    color: '#a0a0a0',
     textAlign: 'center',
     lineHeight: 26,
   },
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#ddd',
+    backgroundColor: 'rgba(255,255,255,0.3)',
   },
   nextButton: {
     paddingVertical: 16,

@@ -17,7 +17,7 @@ export default function BusinessDetailScreen() {
   if (!business) {
     return (
       <View style={styles.error}>
-        <Text>עסק לא נמצא</Text>
+        <Text style={styles.errorText}>עסק לא נמצא</Text>
       </View>
     );
   }
@@ -34,7 +34,7 @@ export default function BusinessDetailScreen() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <Pressable style={styles.backBtn} onPress={() => router.back()}>
-        <IconSymbol name="arrow.backward" size={24} color="#111" />
+        <IconSymbol name="arrow.backward" size={24} color="#fff" />
         <Text style={styles.backText}>חזרה</Text>
       </Pressable>
       <ScrollView style={styles.scroll} contentContainerStyle={{ paddingBottom: 40 }}>
@@ -83,42 +83,47 @@ export default function BusinessDetailScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#0a0a0f',
   },
   error: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#0a0a0f',
+  },
+  errorText: {
+    fontSize: 16,
+    color: '#a0a0a0',
   },
   backBtn: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
   },
   backText: {
     fontSize: 16,
-    color: '#111',
+    color: '#fff',
   },
   scroll: {
     flex: 1,
   },
   header: {
     padding: 24,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255,255,255,0.05)',
     borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomColor: 'rgba(255,255,255,0.1)',
   },
   name: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#111',
+    color: '#fff',
     marginBottom: 4,
   },
   category: {
     fontSize: 16,
-    color: '#666',
+    color: '#a0a0a0',
     marginBottom: 16,
   },
   actions: {
@@ -133,8 +138,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#eee',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.2)',
   },
   actionBtnText: {
     fontSize: 15,
@@ -143,12 +148,12 @@ const styles = StyleSheet.create({
   },
   address: {
     fontSize: 14,
-    color: '#666',
+    color: '#a0a0a0',
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
     margin: 16,
     marginBottom: 8,
   },
@@ -159,18 +164,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 12,
     padding: 16,
-    backgroundColor: '#fff',
+    backgroundColor: '#15151f',
     borderRadius: 12,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
   },
   serviceInfo: {},
   serviceName: {
     fontSize: 17,
     fontWeight: '600',
-    color: '#111',
+    color: '#fff',
   },
   serviceMeta: {
     fontSize: 14,
-    color: '#666',
+    color: '#a0a0a0',
     marginTop: 4,
   },
   bookBtn: {

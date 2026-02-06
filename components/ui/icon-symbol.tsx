@@ -27,6 +27,10 @@ const MAPPING = {
   'mappin.circle.fill': 'place',
   'checkmark.circle.fill': 'check-circle',
   'arrow.backward': 'arrow-back',
+  'gearshape.fill': 'settings',
+  'square.and.pencil': 'edit',
+  'bell.fill': 'notifications',
+  'history': 'history',
 } as IconMapping;
 
 /**

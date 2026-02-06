@@ -5,13 +5,10 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { BookingProvider } from '@/contexts/BookingContext';
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
-
   useEffect(() => {
     if (!I18nManager.isRTL) {
       I18nManager.forceRTL(true);
@@ -20,7 +17,7 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    <ThemeProvider value={DarkTheme}>
       <AuthProvider>
         <BookingProvider>
           <Stack screenOptions={{ headerShown: false }}>
@@ -34,7 +31,7 @@ export default function RootLayout() {
             <Stack.Screen name="success" />
             <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
           </Stack>
-          <StatusBar style="auto" />
+          <StatusBar style="light" />
         </BookingProvider>
       </AuthProvider>
     </ThemeProvider>
